@@ -61,4 +61,5 @@ jobs:
           kubectl apply -f hooks/k8s-bootstrap/ondemand.yaml
           kubectl apply -f k8s/database.yaml
           kubectl apply -f k8s/ondemand.yaml
+          kubectl apply -f k8s/ingress.yaml
           kubectl rollout restart deployment ondemand -n ondemand

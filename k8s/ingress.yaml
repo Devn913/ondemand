@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ondemand-ingress
+  namespace: ondemand
+  annotations:
+    kubernetes.io/ingress.class: "traefik" # Default for k3s, change to "nginx" if using nginx-ingress
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: on.nstsdc.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ondemand
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - on.nstsdc.org
+    secretName: ondemand-tls-secret # You will need to provide this or use Cert-Manager
