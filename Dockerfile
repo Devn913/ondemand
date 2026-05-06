@@ -12,6 +12,7 @@ RUN dnf -y install https://yum.osc.edu/ondemand/4.0/ondemand-release-web-4.0-1.e
 RUN /usr/libexec/httpd-ssl-gencerts
 RUN systemctl enable httpd
 
+COPY ood_portal.yml /etc/ood/config/ood_portal.yml
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 

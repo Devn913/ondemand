@@ -1,0 +1,17 @@
+---
+servername: on.nstsdc.org
+port: 80
+listen_addr_port: 80
+
+# Use Basic Auth (System Users)
+auth:
+  - 'AuthType Basic'
+  - 'AuthName "Open OnDemand"'
+  - 'AuthUserFile "/etc/httpd/conf.d/ood-portal.htpasswd"'
+  - 'Require valid-user'
+
+# Root of the portal
+root_uri: /pun/sys/dashboard
+
+# Disable SSL within the container (Ingress handles it)
+ssl: []
