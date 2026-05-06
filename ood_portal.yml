@@ -1,7 +1,6 @@
 ---
 servername: on.nstsdc.org
 port: 80
-listen_addr_port: 80
 
 # Use Basic Auth (System Users)
 auth:
