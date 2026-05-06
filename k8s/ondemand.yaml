@@ -50,14 +50,25 @@ spec:
             secretKeyRef:
               name: ondemand-secrets
               key: db-password
+        - name: OOD_TEST_USER
+          valueFrom:
+            secretKeyRef:
+              name: ondemand-secrets
+              key: test-user
+        - name: OOD_TEST_PASS
+          valueFrom:
+            secretKeyRef:
+              name: ondemand-secrets
+              key: test-pass
       volumes:
       - name: sys-fs-cgroup
         hostPath:
           path: /sys/fs/cgroup
           type: Directory
       - name: ondemand-data
-        persistentVolumeClaim:
-          claimName: ondemand-data
+        hostPath:
+          path: /var/lib/ondemand-data
+          type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
