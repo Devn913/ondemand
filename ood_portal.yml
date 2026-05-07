@@ -13,4 +13,4 @@ auth:
 root_uri: /pun/sys/dashboard
 
 # Disable SSL within the container (Ingress handles it)
-ssl: []
+ssl: null
