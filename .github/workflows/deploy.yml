@@ -54,6 +54,9 @@ jobs:
       - name: Deploy to Kubernetes
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+          OOD_DB_PASSWORD: ${{ secrets.OOD_DB_PASSWORD }}
+          OOD_TEST_USER: ${{ secrets.OOD_TEST_USER }}
+          OOD_TEST_PASS: ${{ secrets.OOD_TEST_PASS }}
         run: |
           if [ -z "$KUBECONFIG_DATA" ]; then
             echo "KUBE_CONFIG secret is not set! Skipping deployment."
@@ -62,6 +65,15 @@ jobs:
           mkdir -p $HOME/.kube
           echo "$KUBECONFIG_DATA" | base64 -d > $HOME/.kube/config
           kubectl apply -f hooks/k8s-bootstrap/ondemand.yaml
+          
+          # Inject secrets from GitHub Secrets securely
+          kubectl create secret generic ondemand-secrets \
+            --namespace ondemand \
+            --from-literal=db-password="$OOD_DB_PASSWORD" \
+            --from-literal=test-user="$OOD_TEST_USER" \
+            --from-literal=test-pass="$OOD_TEST_PASS" \
+            --dry-run=client -o yaml | kubectl apply -f -
+            
           kubectl apply -f k8s/database.yaml
           kubectl apply -f k8s/ondemand.yaml
           kubectl apply -f k8s/ingress.yaml
